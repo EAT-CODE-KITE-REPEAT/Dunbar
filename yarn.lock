@@ -4484,6 +4484,14 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-native-alphabetlistview@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-alphabetlistview/-/react-native-alphabetlistview-0.3.0.tgz#b7240b90ce1f6d26bf22a4cfa1ce4621334f49b3"
+  integrity sha512-kTYt7IcAcp6YDyHzgHedZ9xJrHAGJB7aJgVCAgJzmxzRSjPGD810JvI0Ou1SaMs7G+392/thIKXbpLpRa0PUmA==
+  dependencies:
+    merge "^1.2.0"
+    prop-types "^15.6.0"
+
 react-native-branch@2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-2.2.5.tgz#4074dd63b4973e6397d9ce50e97b57c77a518e9d"

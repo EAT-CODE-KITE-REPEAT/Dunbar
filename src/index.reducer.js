@@ -1,25 +1,9 @@
 type Device = {
-  cycleSpeed: number,
-  alert: boolean
-};
-
-type Place = {
-  lat: number,
-  long: number,
-  text: string
-};
-
-type Journey = {
-  id: number,
-  from: Place,
-  to: Place,
-  moment: Date
+  whatsappOrCall: string
 };
 
 type Reducer = {
   device: Device,
-  recent: Journey[],
-  favorites: Journey[],
   version: number
 };
 
@@ -34,36 +18,14 @@ const initReducer: Reducer = {
 };
 
 export const fullReducer = (state: Reducer = initReducer, action) => {
+  //todo: see if i can write a more elegant and simple reducer! more like an ORM woulde be sick
+  //get inspired: https://github.com/tommikaikkonen/redux-orm
+
   switch (action.type) {
     case "SET_DEVICE": {
       return {
         ...state,
         device: { ...state.device, ...action.value }
-      };
-    }
-    case "ADD_FAV": {
-      return {
-        ...state,
-        favorites: [...state.favorites, action.value]
-      };
-    }
-    case "REMOVE_FAV": {
-      return {
-        ...state,
-        favorites: state.favorites.filter(s => s.id !== action.value)
-      };
-    }
-
-    case "ADD_RECENT": {
-      return {
-        ...state,
-        recent: [...state.recent, action.value]
-      };
-    }
-    case "REMOVE_RECENT": {
-      return {
-        ...state,
-        recent: state.recent.filter(s => s.id !== action.value)
       };
     }
 

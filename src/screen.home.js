@@ -1,11 +1,16 @@
 import React from "react";
-import { FlatList } from "react-native";
+import { FlatList, View, Text } from "react-native";
 
 class Home extends React.Component {
   render() {
-    const { store, dispatch } = this.props;
+    const { contacts, dispatch } = this.props;
 
-    return <FlatList data={store.contacts} />;
+    return (
+      <View style={{ flex: 1 }}>
+        <Text>JKLAJLKASDJLKFJDFKLAJ</Text>
+        <FlatList data={contacts} />
+      </View>
+    );
   }
 }
 

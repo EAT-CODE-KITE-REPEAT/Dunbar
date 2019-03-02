@@ -7,7 +7,7 @@ https://www.fullcontact.com/blog/maintaining-relationships/
 */
 
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, Button, TouchableOpacity } from "react-native";
 
 class About extends React.Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class About extends React.Component {
     };
   }
   render() {
-    const { store, dispatch } = this.props;
+    const { store, dispatch, navigation } = this.props;
 
     const { clicked } = this.state;
 
@@ -37,17 +37,22 @@ class About extends React.Component {
     ];
 
     const sentence = sentences[clicked];
-    const fontSize = 150 / sentence.length;
+    const last = clicked === sentences.length - 1;
+    const fontSize = sentence.length < 5 ? 150 : sentence.length < 50 ? 20 : 16;
+    const TouchOrView = last ? View : TouchableOpacity;
     return (
-      <TouchableOpacity
-        onPress={() =>
-          clicked >= sentences.length
-            ? null
-            : this.setState({ clicked: clicked + 1 })
-        }
+      <TouchOrView
+        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        onPress={() => (last ? null : this.setState({ clicked: clicked + 1 }))}
       >
         <Text style={{ fontSize }}>{sentence}</Text>
-      </TouchableOpacity>
+        {last ? (
+          <Button
+            title="Select contacts"
+            onPress={() => navigation.navigate("import")}
+          />
+        ) : null}
+      </TouchOrView>
     );
   }
 }

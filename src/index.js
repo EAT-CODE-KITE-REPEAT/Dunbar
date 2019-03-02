@@ -4,24 +4,19 @@ import { connect, Provider } from "react-redux";
 import { store, persistor } from "./index.store";
 import { PersistGate } from "redux-persist/es/integration/react";
 
-import {
-  createStackNavigator,
-  createBottomTabNavigator
-} from "react-navigation";
+import { createAppContainer, createStackNavigator } from "react-navigation";
 
 import C from "./index.constants";
 
-import { Ionicons, Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
-
 import about from "./screen.about";
 import home from "./screen.home";
-import intro from "./screen.intro";
+import importscreen from "./screen.import";
 import user from "./screen.user";
 
 const HomeStack = createStackNavigator({
-  home,
   about,
-  intro,
+  import: importscreen,
+  home,
   user
 });
 
@@ -33,11 +28,13 @@ const ConnectedHomeStack = connect(
   mapDispatchToProps
 )(HomeStack);
 
+const AppContainer = createAppContainer(ConnectedHomeStack);
+
 const Main = props => {
   return (
     <PersistGate persistor={persistor}>
       <Provider store={store}>
-        <ConnectedHomeStack {...props} />
+        <AppContainer {...props} />
       </Provider>
     </PersistGate>
   );
