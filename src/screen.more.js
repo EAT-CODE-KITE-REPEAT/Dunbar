@@ -1,5 +1,30 @@
 import React from "react";
-import { View, Text, Button, TouchableOpacity } from "react-native";
+import { Icon } from "expo";
+import { FlatList, View, Text, Button, TouchableOpacity } from "react-native";
+
+const defaultIconComponent = Icon.Entypo;
+
+const PAGES = [
+  {
+    screen: "About",
+    title: "About the app",
+    icon: "info",
+  },
+
+  {
+    screen: "Team",
+    title: "About the creator",
+    icon: "users",
+    iconComponent: Icon.FontAwesome,
+  },
+
+  {
+    screen: "Settings",
+    title: "Settings",
+    icon: "settings",
+    iconComponent: Icon.MaterialIcons,
+  },
+];
 
 class More extends React.Component {
 
@@ -14,40 +39,43 @@ class More extends React.Component {
   render() {
     const { navigation } = this.props;
 
-    const { clicked } = this.state;
-
-    const sentences = [
-      "150",
-      "According to Robin Dunbar, that's the amount of people you can maintain stable relationships with.",
-      "With this app we aim to:",
-      "Stimulate real interactions",
-      "Stimulate real activities",
-      "Stimulate ongoing relationships",
-      "Find mutual interests",
-      "Find new friends through your friends friends",
-      "Stimulate fewer but stronger connections",
-      "Stimulate spending less time on your phone",
-      "In short: Maintain Good Relationships",
-    ];
-
-    const sentence = sentences[clicked];
-    const last = clicked === sentences.length - 1;
-    const fontSize = sentence.length < 5 ? 150 : sentence.length < 50 ? 20 : 16;
-    const TouchOrView = last ? View : TouchableOpacity;
-
     return (
-      <TouchOrView
-        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        onPress={() => (last ? null : this.setState({ clicked: clicked + 1 }))}
-      >
-        <Text style={{ fontSize }}>{sentence}</Text>
-        {last ? (
-          <Button
-            title="Select contacts"
-            onPress={() => navigation.navigate("contacts")}
-          />
-        ) : null}
-      </TouchOrView>
+      <View style={{ flex: 1 }}>
+        <FlatList
+          data={PAGES}
+          keyExtractor={(item, index) => `item-${index}`}
+          renderItem={({ item, index }) => {
+            const IconComponent = item.iconComponent
+              ? item.iconComponent
+              : defaultIconComponent;
+            return (
+              <TouchableOpacity
+                onPress={() => navigation.navigate(item.screen)}
+                style={{
+                  paddingHorizontal: 20,
+                  flexDirection: "row",
+                  width: "100%",
+                  height: 40,
+                  alignItems: "center",
+                }}
+                key={`i-${index}`}
+              >
+                <IconComponent
+                  name={item.icon}
+                  size={24}
+                  style={{ marginHorizontal: 10 }}
+                />
+                <Text>{item.title}</Text>
+              </TouchableOpacity>
+            );
+          }}
+          ItemSeparatorComponent={() => (
+            <View
+              style={{ backgroundColor: "#ccc", height: 1, width: "100%" }}
+            />
+          )}
+        />
+      </View>
     );
   }
 

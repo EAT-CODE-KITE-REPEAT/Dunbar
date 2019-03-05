@@ -75,7 +75,6 @@ class Keypad extends React.Component {
   );
 
   render() {
-    const { navigation } = this.props;
     const { number } = this.state;
 
     const callIcon = <Icon.Ionicons name="ios-call" size={40} color="white" />;
