@@ -1,20 +1,23 @@
 type Device = {
-  whatsappOrCall: string
+  whatsappOrPhone: string,
+  seenIntro: boolean,
+  version: number
 };
+
+type Contact = Object;
 
 type Reducer = {
   device: Device,
-  version: number
+  contacts: Contact
 };
 
 const initReducer: Reducer = {
   device: {
-    cycleSpeed: 15,
-    alert: true
+    whatsappOrPhone: "phone",
+    seenIntro: false,
+    version: 0
   },
-  recent: [],
-  favorites: [],
-  version: 0
+  contacts: []
 };
 
 export const fullReducer = (state: Reducer = initReducer, action) => {
@@ -29,12 +32,15 @@ export const fullReducer = (state: Reducer = initReducer, action) => {
       };
     }
 
-    case "SET_VERSION": {
-      return { ...state, version: action.value };
+    case "SET_CONTACTS": {
+      return { ...state, contacts: action.value };
     }
 
     case "PURGE": {
-      return { ...initReducer, version: state.version };
+      return {
+        ...initReducer,
+        device: { ...initReducer.device, version: state.device.version }
+      };
     }
 
     default:

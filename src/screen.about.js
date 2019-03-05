@@ -18,7 +18,7 @@ class About extends React.Component {
     };
   }
   render() {
-    const { store, dispatch, navigation } = this.props;
+    const { dispatch, navigation } = this.props;
 
     const { clicked } = this.state;
 
@@ -40,6 +40,7 @@ class About extends React.Component {
     const last = clicked === sentences.length - 1;
     const fontSize = sentence.length < 5 ? 150 : sentence.length < 50 ? 20 : 16;
     const TouchOrView = last ? View : TouchableOpacity;
+      //jidjlksdjfk
     return (
       <TouchOrView
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
@@ -49,7 +50,7 @@ class About extends React.Component {
         {last ? (
           <Button
             title="Select contacts"
-            onPress={() => navigation.navigate("import")}
+            onPress={() => navigation.navigate("contacts")}
           />
         ) : null}
       </TouchOrView>

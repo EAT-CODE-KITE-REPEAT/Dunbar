@@ -1,7 +1,3 @@
-/*
-1. Require contact access. Make user search and select contacts, minimum 5.
-3. Completed: show Home
-*/
 import React from "react";
 import {
   FlatList,
@@ -10,13 +6,15 @@ import {
   Alert,
   ScrollView,
   TouchableOpacity,
-  Text
+  Text,
+  Button,
+  TextInput
 } from "react-native";
 import { Contacts, Permissions, Icon } from "expo";
-import AlphabetListView from "react-native-alphabetlistview";
-import { TextInput } from "react-native-gesture-handler";
 
-class Intro extends React.Component {
+const MINIMUM_SELECTED = 5;
+
+class Import extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -47,6 +45,8 @@ class Intro extends React.Component {
   syncContacts() {
     Contacts.getContactsAsync()
       .then(({ data }) => {
+        console.log("data", data[0]);
+
         this.setState({
           contacts: data.map(({ id, name, phoneNumbers }) => ({
             id,
@@ -145,6 +145,27 @@ class Intro extends React.Component {
     );
   };
 
+  renderFooter = () => {
+    const {
+      navigation,
+      screenProps: { dispatch }
+    } = this.props;
+    const { selected } = this.state;
+
+    const needMore = selected.length < MINIMUM_SELECTED;
+    const howManyMore = MINIMUM_SELECTED - selected.length;
+    return (
+      <Button
+        disabled={needMore}
+        title={needMore ? `Select ${howManyMore} more` : "Save"}
+        onPress={() => {
+          dispatch({ type: "SET_CONTACTS", value: selected });
+          dispatch({ type: "SET_DEVICE", value: { seenIntro: true } });
+        }}
+      />
+    );
+  };
+
   renderEmpty = () => <Text>No contacts found</Text>;
   render() {
     const { contacts, selected, search } = this.state;
@@ -152,24 +173,25 @@ class Intro extends React.Component {
     const filteredContacts = contacts
       ? search
         ? contacts.filter(c =>
-            c.name.toLowerCase().includes(search.toLowerCase())
+            c.name && c.name.toLowerCase().includes(search.toLowerCase())
           )
         : contacts
       : [];
 
     return (
       <View style={{ flex: 1 }}>
+        {this.renderHeader()}
         <FlatList
           extraData={selected.length}
           data={filteredContacts}
-          ListHeaderComponent={this.renderHeader}
           ListEmptyComponent={this.renderEmpty}
           ItemSeparatorComponent={this.renderSeparator}
           keyExtractor={(c, i) => `item-${i}`}
           renderItem={this.renderItem}
         />
+        {this.renderFooter()}
       </View>
     );
   }
 }
-export default Intro;
+export default Import;
