@@ -14,16 +14,25 @@ import { Contacts, Permissions, Icon } from "expo";
 //sdfksd
 const MINIMUM_SELECTED = 5;
 
-class Import extends React.Component {
+class ContactsScreen extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
+      isEditing: false,
       contacts: [],
       selected: [],
     };
 
     this.renderItem = this.renderItem.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.navigation.setParams({
+      switchEdit: () => this.setState({ isEditing: !this.state.isEditing }),
+    });
+
+    this.syncContacts();
   }
 
   async componentWillMount() {
@@ -40,11 +49,8 @@ class Import extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.syncContacts();
-  }
-
   syncContacts() {
+    console.log("syncing contacts");
     Contacts.getContactsAsync()
       .then(({ data }) => {
         console.log("data", data[0]);
@@ -151,6 +157,7 @@ class Import extends React.Component {
   renderFooter = () => {
     const {
       screenProps: { dispatch },
+      navigation: { navigate },
     } = this.props;
     const { selected } = this.state;
 
@@ -163,6 +170,7 @@ class Import extends React.Component {
         onPress={() => {
           dispatch({ type: "SET_CONTACTS", value: selected });
           dispatch({ type: "SET_DEVICE", value: { seenIntro: true } });
+          navigate("HomeStack");
         }}
       />
     );
@@ -197,4 +205,4 @@ class Import extends React.Component {
   }
 
 }
-export default Import;
+export default ContactsScreen;

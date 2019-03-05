@@ -1,12 +1,14 @@
 import React from "react";
-import { View, ActivityIndicator } from "react-native";
+import { Button, View, ActivityIndicator } from "react-native";
 import { Icon } from "expo";
+
 import {
   createSwitchNavigator,
   createAppContainer,
   createBottomTabNavigator,
   createStackNavigator,
 } from "react-navigation";
+
 import { connect } from "react-redux";
 
 import About from "./screen.about";
@@ -19,16 +21,24 @@ import Team from "./screen.team";
 import More from "./screen.more";
 import Keypad from "./screen.keypad";
 
-const TabsRoutes = {
-  Home,
+const giveRedux = screen =>
+  connect(
+    store => ({ ...store.data }),
+    dispatch => ({ dispatch })
+  )(screen);
+
+const IntroStack = createStackNavigator({
+  Intro,
   Contacts,
-  Keypad,
-  More,
-};
+});
 
 const Tabs = createBottomTabNavigator(
-  TabsRoutes,
-
+  {
+    Home,
+    Contacts,
+    Keypad,
+    More,
+  },
   {
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
@@ -67,16 +77,8 @@ const Tabs = createBottomTabNavigator(
   }
 );
 
-Tabs.navigationOptions = ({ navigation }) => {
-  const { routeName } = navigation.state.routes[navigation.state.index];
-
-  return {
-    headerTitle: routeName,
-    headerTitleStyle: { fontSize: 30 },
-  };
-};
-
 const HomeStack = createStackNavigator({
+  Tabs,
   User: {
     screen: User,
     navigationOptions: () => ({
@@ -103,22 +105,41 @@ const HomeStack = createStackNavigator({
   },
 });
 
-const IntroStack = createStackNavigator({
-  Intro,
-  Contacts,
-});
+//** Default NavigationOptions */
+Tabs.navigationOptions = ({ navigation }) => {
+  const { routeName } = navigation.state.routes[navigation.state.index];
 
-class _AuthLoadingScreen extends React.Component {
+  const contactsButton = (
+    <Button onPress={() => navigation.getParam("switchEdit")} title="Edit" />
+  );
+  return {
+    headerTitle: routeName,
+    headerRight: routeName === "Contacts" ? contactsButton : null,
+    headerTitleStyle: { fontSize: 30 },
+  };
+};
+
+HomeStack.navigationOptions = ({ navigation }) => {
+  const { routeName } = navigation.state.routes[navigation.state.index];
+
+  return {
+    headerTitle: routeName,
+    headerTitleStyle: { fontSize: 30 },
+  };
+};
+
+class NavLoadingScreen extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.choose(props.device);
+    const device = props.screenProps?.device;
+    console.log("Construct navloadingscreen. Got props?", device);
+    this.navigateToRoutes(device);
   }
 
-  choose = device =>
+  navigateToRoutes = device =>
     this.props.navigation.navigate(
-      device.seenIntro ? "MainRoutes" : "IntroStack"
+      device.seenIntro ? "HomeStack" : "IntroStack"
     );
 
   render() {
@@ -131,22 +152,26 @@ class _AuthLoadingScreen extends React.Component {
 
 }
 
-const AuthLoadingScreen = connect(
-  store => ({ ...store.data }),
-  dispatch => ({ dispatch })
-)(_AuthLoadingScreen);
+const MainSwitch = createSwitchNavigator({
+  NavLoadingScreen,
+  HomeStack,
+  IntroStack,
+});
 
-const MainSwitch = createSwitchNavigator(
-  {
-    AuthLoadingScreen,
-    HomeStack,
-    IntroStack,
-  },
-  {
-    initialRouteName: "AuthLoadingScreen",
+class MainSwitchWrapper extends React.Component {
+
+  /**
+   * This wrapper is needed to pass the redux store/dispatcher to the screenProps of the MainSwitch (the main nav). The static router makes it possible to keep this component a nav by using a pointer.
+   */
+  static router = MainSwitch.router;
+  render() {
+    console.log("render switch wrapper");
+    const { navigation, ...rest } = this.props;
+    return <MainSwitch navigation={navigation} screenProps={rest} />;
   }
-);
 
-const AppContainer = createAppContainer(MainSwitch);
+}
+
+const AppContainer = createAppContainer(giveRedux(MainSwitchWrapper));
 
 export default AppContainer;

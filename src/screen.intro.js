@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Text, Button, TouchableOpacity } from "react-native";
-import Image from "./wrapper.super.image";
+import { View, Text, Button, TouchableOpacity, Image } from "react-native";
+// import Image from "./wrapper.super.image";
 class About extends React.Component {
 
   constructor(props) {
@@ -13,7 +13,7 @@ class About extends React.Component {
 
   render() {
     const { navigation } = this.props;
-
+    console.log("intro!", Object.keys(this.props.screenProps));
     const { clicked } = this.state;
 
     const sentences = [
@@ -62,16 +62,18 @@ class About extends React.Component {
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         onPress={() => (last ? null : this.setState({ clicked: clicked + 1 }))}
       >
-        <Text style={{ fontSize }}>{item.text}</Text>
-
         {item.image ? (
           <Image
             source={item.image}
             style={{ width: "100%" }}
             resizeMode="contain"
-            animated
           />
         ) : null}
+
+        <View style={{ position: "absolute", top: 150 }}>
+          <Text style={{ fontSize }}>{item.text}</Text>
+        </View>
+
         {last ? (
           <Button
             title="Select contacts"
