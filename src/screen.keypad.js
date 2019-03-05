@@ -60,7 +60,8 @@ class Keypad extends React.Component {
     <TouchableOpacity
       onPress={onPress}
       style={{
-        margin: MARGIN,
+        marginHorizontal: MARGIN,
+        marginVertical: MARGIN / 2,
         width: SIZE,
         height: SIZE,
         justifyContent: "center",
@@ -87,7 +88,7 @@ class Keypad extends React.Component {
 
     return (
       <ScrollView style={{ flex: 1 }}>
-        <View style={{ height: 100, marginTop: 20, alignItems: "center" }}>
+        <View style={{ height: 80, marginTop: 20, alignItems: "center" }}>
           <Text style={{ fontSize: FONTSIZE }}>{number}</Text>
           {this.renderButtonOrContact(number)}
         </View>

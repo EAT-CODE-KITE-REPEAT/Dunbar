@@ -12,8 +12,10 @@ import Home from "./screen.home";
 import Contacts from "./screen.contacts";
 import User from "./screen.user";
 import Settings from "./screen.settings";
+import Team from "./screen.team";
 import More from "./screen.more";
 import Keypad from "./screen.keypad";
+
 const TabsRoutes = {
   Home,
   Contacts,
@@ -62,9 +64,41 @@ const Tabs = createBottomTabNavigator(
   }
 );
 
+Tabs.navigationOptions = ({ navigation }) => {
+  const { routeName } = navigation.state.routes[navigation.state.index];
+
+  return {
+    headerTitle: routeName,
+    headerTitleStyle: { fontSize: 30 },
+  };
+};
+
 const HomeStackRoutes = {
   Tabs,
-  User,
+  User: {
+    screen: User,
+    navigationOptions: () => ({
+      headerTitle: "Contact info",
+    }),
+  },
+  Team: {
+    screen: Team,
+    navigationOptions: () => ({
+      headerTitle: "About the creator",
+    }),
+  },
+  About: {
+    screen: About,
+    navigationOptions: () => ({
+      headerTitle: "About the app",
+    }),
+  },
+  Settings: {
+    screen: Settings,
+    navigationOptions: () => ({
+      headerTitle: "Settings",
+    }),
+  },
 };
 const HomeStack = createStackNavigator(HomeStackRoutes);
 
