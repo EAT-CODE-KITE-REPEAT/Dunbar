@@ -10,6 +10,7 @@ import React from "react";
 import { View, Text } from "react-native";
 
 class User extends React.Component {
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -17,5 +18,6 @@ class User extends React.Component {
       </View>
     );
   }
+
 }
 export default User;

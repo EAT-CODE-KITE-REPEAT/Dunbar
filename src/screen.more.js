@@ -1,14 +1,7 @@
-/*
-Information about Dunbar. Example of how it will look (slide through info)
-
-google: dunbar number
-https://www.fullcontact.com/blog/maintaining-relationships/
-
-*/
 import React from "react";
 import { View, Text, Button, TouchableOpacity } from "react-native";
 
-class About extends React.Component {
+class More extends React.Component {
 
   constructor(props) {
     super(props);
@@ -59,4 +52,4 @@ class About extends React.Component {
   }
 
 }
-export default About;
+export default More;

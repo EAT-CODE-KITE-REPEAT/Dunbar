@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
   Image,
-  Text
+  Text,
 } from "react-native";
 import { WebBrowser } from "expo";
 
@@ -26,7 +26,7 @@ const formattedPhoneNumber = phone => phone.replace(/[- )(]/g, "");
 // todo : add PureIconLabel in the mix using user.suggestions
 // an array of suggestions which are icons and activitynames
 
-export default (PureUserCard = props => {
+const PureUserCard = props => {
   const { user } = props;
 
   const imageOrName = user.image ? (
@@ -35,7 +35,7 @@ export default (PureUserCard = props => {
       style={{
         width: IMAGE_SIZE,
         height: IMAGE_SIZE,
-        borderRadius: IMAGE_SIZE / 2
+        borderRadius: IMAGE_SIZE / 2,
       }}
     />
   ) : (
@@ -48,7 +48,7 @@ export default (PureUserCard = props => {
         width: SIZE,
         height: SIZE,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
       }}
       onPress={() => {
         openUrl(
@@ -65,7 +65,7 @@ export default (PureUserCard = props => {
           borderRadius: IMAGE_SIZE / 2,
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "#CCC"
+          backgroundColor: "#CCC",
         }}
       >
         {imageOrName}
@@ -74,4 +74,6 @@ export default (PureUserCard = props => {
       {user.notes ? <Text>{user.notes}</Text> : null}
     </TouchableOpacity>
   );
-});
+};
+
+export default PureUserCard;

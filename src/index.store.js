@@ -6,11 +6,11 @@ import { fullReducer } from "./index.reducer";
 const config = {
   key: "v1",
   storage: AsyncStorage,
-  whitelist: ["data"]
+  whitelist: ["data"],
 };
 
 const reducers = {
-  data: fullReducer
+  data: fullReducer,
 };
 
 const rootReducer = persistCombineReducers(config, reducers);

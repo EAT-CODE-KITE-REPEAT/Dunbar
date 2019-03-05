@@ -15,9 +15,9 @@ const initReducer: Reducer = {
   device: {
     whatsappOrPhone: "phone",
     seenIntro: false,
-    version: 0
+    version: 0,
   },
-  contacts: []
+  contacts: [],
 };
 
 export const fullReducer = (state: Reducer = initReducer, action) => {
@@ -28,7 +28,7 @@ export const fullReducer = (state: Reducer = initReducer, action) => {
     case "SET_DEVICE": {
       return {
         ...state,
-        device: { ...state.device, ...action.value }
+        device: { ...state.device, ...action.value },
       };
     }
 
@@ -39,7 +39,7 @@ export const fullReducer = (state: Reducer = initReducer, action) => {
     case "PURGE": {
       return {
         ...initReducer,
-        device: { ...initReducer.device, version: state.device.version }
+        device: { ...initReducer.device, version: state.device.version },
       };
     }
 

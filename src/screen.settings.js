@@ -2,9 +2,10 @@ import React from "react";
 import { Button, View, Text } from "react-native";
 import { Updates } from "expo";
 class Home extends React.Component {
+
   render() {
     const {
-      screenProps: { device, dispatch }
+      screenProps: { device, dispatch },
     } = this.props;
 
     console.log("device", device);
@@ -19,7 +20,7 @@ class Home extends React.Component {
           onPress={() =>
             dispatch({
               type: "SET_DEVICE",
-              value: { whatsappOrPhone: "phone" }
+              value: { whatsappOrPhone: "phone" },
             })
           }
         />
@@ -29,7 +30,7 @@ class Home extends React.Component {
           onPress={() =>
             dispatch({
               type: "SET_DEVICE",
-              value: { whatsappOrPhone: "whatsapp" }
+              value: { whatsappOrPhone: "whatsapp" },
             })
           }
         />
@@ -38,6 +39,7 @@ class Home extends React.Component {
       </View>
     );
   }
+
 }
 
 export default Home;

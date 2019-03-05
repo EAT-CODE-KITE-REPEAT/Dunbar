@@ -1,9 +1,9 @@
 import React from "react";
-import { Text } from "react-native";
+import { Icon } from "expo";
 import {
   createAppContainer,
   createBottomTabNavigator,
-  createStackNavigator
+  createStackNavigator,
 } from "react-navigation";
 import { connect } from "react-redux";
 
@@ -12,18 +12,59 @@ import Home from "./screen.home";
 import Contacts from "./screen.contacts";
 import User from "./screen.user";
 import Settings from "./screen.settings";
-
+import More from "./screen.more";
+import Keypad from "./screen.keypad";
 const TabsRoutes = {
-  Home: { screen: Home, icon: <Text>JKJKJ</Text> },
+  Home,
   Contacts,
-  About,
-  Settings
+  Keypad,
+  More,
 };
-const Tabs = createBottomTabNavigator(TabsRoutes);
+
+const Tabs = createBottomTabNavigator(
+  TabsRoutes,
+
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, horizontal, tintColor }) => {
+        const { routeName } = navigation.state;
+
+        const iconNames = {
+          Home: "users",
+          Contacts: "book",
+          Keypad: "ios-keypad",
+          More: "bars",
+        };
+
+        const iconComponents = {
+          Keypad: Icon.Ionicons,
+        };
+
+        const IconComponent = iconComponents[routeName]
+          ? iconComponents[routeName]
+          : Icon.FontAwesome;
+
+        // You can return any component that you like here!
+        return (
+          <IconComponent
+            name={iconNames[routeName]}
+            size={25}
+            color={tintColor}
+          />
+        );
+      },
+      tabBarLabel: () => null,
+    }),
+    tabBarOptions: {
+      activeTintColor: "tomato",
+      inactiveTintColor: "gray",
+    },
+  }
+);
 
 const HomeStackRoutes = {
   Tabs,
-  User
+  User,
 };
 const HomeStack = createStackNavigator(HomeStackRoutes);
 
@@ -31,15 +72,16 @@ const IntroStack = createStackNavigator(
   {
     About,
     Contacts,
-    Tabs
+    Tabs,
   },
   {
     initialRouteKey: "About",
-    navigationOptions: { tabBarVisible: false }
+    navigationOptions: { tabBarVisible: false },
   }
 );
 
 class GiveScreenPropsWrapper extends React.Component {
+
   static router = HomeStack.router;
   render() {
     const { navigation, ...rest } = this.props;
@@ -48,11 +90,13 @@ class GiveScreenPropsWrapper extends React.Component {
     if (rest.device.seenIntro) {
       console.log("seenintro");
       return <HomeStack navigation={navigation} screenProps={rest} />;
-    } else {
+    }
+    else {
       console.log("not seen intro");
       return <IntroStack navigation={navigation} screenProps={rest} />;
     }
   }
+
 }
 
 const MainRoutes = connect(

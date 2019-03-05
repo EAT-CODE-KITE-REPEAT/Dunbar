@@ -11,12 +11,12 @@ const firebaseConfig = {
   databaseURL: "?",
   projectId: "?",
   storageBucket: "?",
-  messagingSenderId: "?"
+  messagingSenderId: "?",
 };
 
 //this is needed for the location type
 const googlePlacesConfig = {
-  key: "?"
+  key: "?",
 };
 
 const DataForm = props => {
@@ -25,18 +25,18 @@ const DataForm = props => {
     firebaseConfig,
     googlePlacesConfig,
     expo,
-    navigation: props.navigation
+    navigation: props.navigation,
   });
 
   const inputTypes = {
-    ...leckrInputs
+    ...leckrInputs,
     //add your own custom types
   };
 
   const allProps = {
     ...props,
     inputTypes,
-    FieldComponent
+    FieldComponent,
   };
 
   return <_DataForm {...allProps} />;

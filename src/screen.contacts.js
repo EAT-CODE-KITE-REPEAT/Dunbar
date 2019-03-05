@@ -4,22 +4,23 @@ import {
   View,
   Platform,
   Alert,
-  ScrollView,
   TouchableOpacity,
   Text,
   Button,
-  TextInput
+  TextInput,
 } from "react-native";
 import { Contacts, Permissions, Icon } from "expo";
-
+// weriedkddk  dksksdlfd
+//sdfksd
 const MINIMUM_SELECTED = 5;
 
 class Import extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
       contacts: [],
-      selected: []
+      selected: [],
     };
 
     this.renderItem = this.renderItem.bind(this);
@@ -32,7 +33,8 @@ class Import extends React.Component {
       );
       if (status !== "granted") {
         Alert.alert("Sorry. We need access");
-      } else {
+      }
+      else {
         this.syncContacts();
       }
     }
@@ -51,8 +53,8 @@ class Import extends React.Component {
           contacts: data.map(({ id, name, phoneNumbers }) => ({
             id,
             name,
-            phone: phoneNumbers && phoneNumbers[0].number
-          }))
+            phone: phoneNumbers && phoneNumbers[0].number,
+          })),
         });
       })
       .catch(e => console.warn(e));
@@ -71,7 +73,8 @@ class Import extends React.Component {
           let newSelected = selected;
           if (already) {
             newSelected = selected.filter(s => s.id !== item.id);
-          } else {
+          }
+          else {
             newSelected.push(item);
           }
 
@@ -81,7 +84,7 @@ class Import extends React.Component {
           height: 50,
           flexDirection: "row",
           alignItems: "center",
-          marginHorizontal: 10
+          marginHorizontal: 10,
         }}
       >
         <Icon.MaterialCommunityIcons
@@ -118,7 +121,7 @@ class Import extends React.Component {
             flexDirection: "row",
             backgroundColor: "#DDD",
             borderRadius: 10,
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <Icon.Ionicons
@@ -147,8 +150,7 @@ class Import extends React.Component {
 
   renderFooter = () => {
     const {
-      navigation,
-      screenProps: { dispatch }
+      screenProps: { dispatch },
     } = this.props;
     const { selected } = this.state;
 
@@ -172,9 +174,9 @@ class Import extends React.Component {
 
     const filteredContacts = contacts
       ? search
-        ? contacts.filter(c =>
-            c.name && c.name.toLowerCase().includes(search.toLowerCase())
-          )
+        ? contacts.filter(
+          c => c.name && c.name.toLowerCase().includes(search.toLowerCase())
+        )
         : contacts
       : [];
 
@@ -193,5 +195,6 @@ class Import extends React.Component {
       </View>
     );
   }
+
 }
 export default Import;

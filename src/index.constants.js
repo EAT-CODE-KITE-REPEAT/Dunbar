@@ -1,3 +1,3 @@
 export default {
-  hoi: 1
+  hoi: 1,
 };
