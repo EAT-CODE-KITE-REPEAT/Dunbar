@@ -1,6 +1,8 @@
 import React from "react";
+import { View, ActivityIndicator } from "react-native";
 import { Icon } from "expo";
 import {
+  createSwitchNavigator,
   createAppContainer,
   createBottomTabNavigator,
   createStackNavigator,
@@ -8,6 +10,7 @@ import {
 import { connect } from "react-redux";
 
 import About from "./screen.about";
+import Intro from "./screen.intro";
 import Home from "./screen.home";
 import Contacts from "./screen.contacts";
 import User from "./screen.user";
@@ -73,8 +76,7 @@ Tabs.navigationOptions = ({ navigation }) => {
   };
 };
 
-const HomeStackRoutes = {
-  Tabs,
+const HomeStack = createStackNavigator({
   User: {
     screen: User,
     navigationOptions: () => ({
@@ -99,45 +101,52 @@ const HomeStackRoutes = {
       headerTitle: "Settings",
     }),
   },
-};
-const HomeStack = createStackNavigator(HomeStackRoutes);
+});
 
-const IntroStack = createStackNavigator(
-  {
-    About,
-    Contacts,
-    Tabs,
-  },
-  {
-    initialRouteKey: "About",
-    navigationOptions: { tabBarVisible: false },
+const IntroStack = createStackNavigator({
+  Intro,
+  Contacts,
+});
+
+class _AuthLoadingScreen extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.choose(props.device);
   }
-);
 
-class GiveScreenPropsWrapper extends React.Component {
+  choose = device =>
+    this.props.navigation.navigate(
+      device.seenIntro ? "MainRoutes" : "IntroStack"
+    );
 
-  static router = HomeStack.router;
   render() {
-    const { navigation, ...rest } = this.props;
-
-    // why tabs has to be added to the introstack nav? this fucks it up. even though tabs is down in the stack ,its still rendered, weird RN3...
-    if (rest.device.seenIntro) {
-      console.log("seenintro");
-      return <HomeStack navigation={navigation} screenProps={rest} />;
-    }
-    else {
-      console.log("not seen intro");
-      return <IntroStack navigation={navigation} screenProps={rest} />;
-    }
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator color="green" size="large" />
+      </View>
+    );
   }
 
 }
 
-const MainRoutes = connect(
+const AuthLoadingScreen = connect(
   store => ({ ...store.data }),
   dispatch => ({ dispatch })
-)(GiveScreenPropsWrapper);
+)(_AuthLoadingScreen);
 
-const AppContainer = createAppContainer(MainRoutes);
+const MainSwitch = createSwitchNavigator(
+  {
+    AuthLoadingScreen,
+    HomeStack,
+    IntroStack,
+  },
+  {
+    initialRouteName: "AuthLoadingScreen",
+  }
+);
+
+const AppContainer = createAppContainer(MainSwitch);
 
 export default AppContainer;
