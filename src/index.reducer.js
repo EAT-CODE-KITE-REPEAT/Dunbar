@@ -53,7 +53,7 @@ export const fullReducer = (state: Reducer = initReducer, action) => {
     }
 
     case "UPSERT_USER": {
-      console.log("upserst User", action.value);
+      console.log("Upsert User", action.value);
       const currentContacts = state.contacts;
       const currentIds = currentContacts.map(c => c.id);
 
@@ -68,7 +68,10 @@ export const fullReducer = (state: Reducer = initReducer, action) => {
         };
       }
       else {
-        newContacts.push(action.value);
+        newContacts.push({
+          ...action.value,
+          id: Math.round(Math.random() * 9999999999999).toString(),
+        });
       }
 
       return {

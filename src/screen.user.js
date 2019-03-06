@@ -143,6 +143,9 @@ class User extends React.Component {
       if (value.contactAmount) {
         contact.contactAmount = value.contactAmount;
       }
+      if (value.note) {
+        contact.note = value.note;
+      }
 
       contact.id = params.user?.id;
 
@@ -153,7 +156,7 @@ class User extends React.Component {
       });
 
       //3contact api
-      // doesn't seem to work yet... also, need to distinguish between updating and creating!
+      // doesn't seem to work yet... also, need to distinguish between updating and creating! also, ios only
       // const updatedId = Contacts.updateContactAsync(contact);
       // console.log("updated ios contact", updatedId);
       return true;
