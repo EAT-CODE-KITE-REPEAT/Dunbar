@@ -9,7 +9,7 @@ import {
   Text,
 } from "react-native";
 import { WebBrowser } from "expo";
-
+import ActionSheet from "react-native-super-actionsheet";
 const { width } = Dimensions.get("screen");
 const MARGIN = 10;
 const SIZE = width / 3 - MARGIN * 2;
@@ -54,6 +54,15 @@ const PureUserCard = props => {
   ) : (
     <Text>{user.name}</Text>
   );
+
+  const callAction = () =>
+    openExternal(`tel:${formattedPhoneNumber(user.phone)}`);
+  const whatsappAction = () =>
+    openUrl(
+      `https://api.whatsapp.com/send?phone=${formattedPhoneNumber(user.phone)}`
+    );
+  const userAction = () => navigate("User");
+
   return (
     <TouchableOpacity
       style={{
@@ -63,19 +72,16 @@ const PureUserCard = props => {
         justifyContent: "center",
         alignItems: "center",
       }}
-      onPress={() => {
+      onPress={() => this.actionSheet.show()}
+      onLongPress={() => {
         if (device.favoriteAction === "phone") {
-          openExternal(`tel:${formattedPhoneNumber(user.phone)}`);
+          callAction();
         }
         else if (device.favoriteAction === "user") {
-          navigate("User");
+          userAction();
         }
         else {
-          openUrl(
-            `https://api.whatsapp.com/send?phone=${formattedPhoneNumber(
-              user.phone
-            )}`
-          );
+          whatsappAction();
         }
       }}
     >
@@ -91,6 +97,16 @@ const PureUserCard = props => {
       >
         {imageOrName}
       </View>
+
+      <ActionSheet
+        reference={ref => (this.actionSheet = ref)}
+        data={[
+          { index: 0, title: "Call", onPress: callAction },
+          { index: 1, title: "Whatsapp", onPress: whatsappAction },
+          { index: 2, title: "Profile", onPress: userAction },
+          { index: 3, title: "Cancel", cancel: true },
+        ]}
+      />
 
       {user.notes ? <Text>{user.notes}</Text> : null}
     </TouchableOpacity>
