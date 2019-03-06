@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
   Image,
+  Alert,
   Text,
 } from "react-native";
 import { WebBrowser } from "expo";
@@ -13,6 +14,18 @@ const { width } = Dimensions.get("screen");
 const MARGIN = 10;
 const SIZE = width / 3 - MARGIN * 2;
 const IMAGE_SIZE = SIZE * 1;
+
+const openExternal = url => {
+  console.log("Url?", url);
+  Linking.canOpenURL(url).then(supported => {
+    if (supported) {
+      Linking.openURL(url);
+    }
+    else {
+      Alert.alert("Cannot open this");
+    }
+  });
+};
 
 const openUrl = url => {
   Linking.canOpenURL(url).then(supported => {
@@ -52,10 +65,10 @@ const PureUserCard = props => {
       }}
       onPress={() => {
         if (device.favoriteAction === "phone") {
-          openUrl(`tel:${formattedPhoneNumber(user.phone)}`);
+          openExternal(`tel:${formattedPhoneNumber(user.phone)}`);
         }
         else if (device.favoriteAction === "user") {
-          navigate("user");
+          navigate("User");
         }
         else {
           openUrl(
