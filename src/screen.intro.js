@@ -13,7 +13,6 @@ class About extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    console.log("intro!", Object.keys(this.props.screenProps));
     const { clicked } = this.state;
 
     const sentences = [
@@ -44,7 +43,10 @@ class About extends React.Component {
         text: "Stimulate fewer but stronger connections",
         image: require("./img/fewerstronger.jpg"),
       },
-      //{text:"Stimulate spending less time on your phone", require("./img/screentime.jpg") },
+      {
+        text: "Stimulate spending less time on your phone",
+        image: require("./img/screentime.jpg"),
+      },
       {
         text: "In short: Maintain Good Relationships",
         image: require("./img/maintaingoodrelationships.jpg"),

@@ -16,8 +16,7 @@ const FONTSIZE = 33;
 const MARGIN = 10;
 const SIZE = width / 3 - MARGIN * 5;
 
-const openExternal = url => {
-  console.log("Url?", url);
+const openURL = url => {
   Linking.canOpenURL(url).then(supported => {
     if (supported) {
       Linking.openURL(url);
@@ -50,7 +49,11 @@ class Keypad extends React.Component {
       ) : (
         <Button
           title="Add number"
-          onPress={() => navigation.navigate("User")}
+          onPress={() =>
+            navigation.navigate("User", {
+              user: { phoneNumbers: [{ number }] },
+            })
+          }
         />
       )
     ) : null;
@@ -116,7 +119,7 @@ class Keypad extends React.Component {
             value: callIcon,
             index: "call",
             backgroundColor: "lime",
-            onPress: () => openExternal(`tel:${this.state.number}`),
+            onPress: () => openURL(`tel:${this.state.number}`),
           })}
 
           {this.state.number

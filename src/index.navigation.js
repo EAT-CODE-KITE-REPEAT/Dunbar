@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, View, ActivityIndicator } from "react-native";
 import { Icon } from "expo";
+import { screens } from "leckr-inputs";
 
 import {
   createSwitchNavigator,
@@ -29,7 +30,7 @@ const giveRedux = screen =>
 
 const IntroStack = createStackNavigator({
   Intro,
-  Contacts,
+  Contacts: { screen: props => <Contacts isIntro {...props} /> },
 });
 
 const Tabs = createBottomTabNavigator(
@@ -103,6 +104,7 @@ const HomeStack = createStackNavigator({
       headerTitle: "Settings",
     }),
   },
+  ...screens,
 });
 
 //** Default NavigationOptions */
@@ -134,7 +136,6 @@ class NavLoadingScreen extends React.Component {
   constructor(props) {
     super(props);
     const device = props.screenProps?.device;
-    console.log("Construct navloadingscreen. Got props?", device);
     this.navigateToRoutes(device);
   }
 
@@ -166,7 +167,6 @@ class MainSwitchWrapper extends React.Component {
    */
   static router = MainSwitch.router;
   render() {
-    console.log("render switch wrapper");
     const { navigation, ...rest } = this.props;
     return <MainSwitch navigation={navigation} screenProps={rest} />;
   }

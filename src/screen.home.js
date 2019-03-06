@@ -4,9 +4,10 @@ import UserCard from "./pure.user.card";
 
 class Home extends React.Component {
 
-  renderItem = ({ item }) => (
+  renderItem = ({ item, index }) => (
     <UserCard
-      device={this.props.screenProps.device}
+      index={index}
+      screenProps={this.props.screenProps}
       navigate={this.props.navigation.navigate}
       user={item}
     />
@@ -15,18 +16,25 @@ class Home extends React.Component {
   renderEmpty = () => <Text>No contacts yet!</Text>;
   render() {
     const {
-      screenProps: { contacts },
+      screenProps: {
+        contacts,
+        device: { hasEdited },
+      },
     } = this.props;
 
     return (
       <View style={{ flex: 1 }}>
-        <FlatList
-          numColumns={3}
-          keyExtractor={item => item.id}
-          data={contacts}
-          renderItem={this.renderItem}
-          ListEmptyComponent={this.renderEmpty}
-        />
+        {contacts.length === 0 ? (
+          this.renderEmpty()
+        ) : (
+          <FlatList
+            extraData={[contacts.length, hasEdited]}
+            numColumns={3}
+            keyExtractor={item => item.id}
+            data={contacts}
+            renderItem={this.renderItem}
+          />
+        )}
       </View>
     );
   }

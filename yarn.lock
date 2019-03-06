@@ -4056,10 +4056,10 @@ lcid@^1.0.0:
   dependencies:
     invert-kv "^1.0.0"
 
-leckr-inputs@^1.1.16:
-  version "1.1.16"
-  resolved "https://registry.yarnpkg.com/leckr-inputs/-/leckr-inputs-1.1.16.tgz#1f045857bf21ce4e95b3747a20ef5ed7b7bf765c"
-  integrity sha512-yONvGH7EkXzFx8Mw/B6RJysbtIpk5mr1gM0uNCo3oQNZ6VJn3HC0ZILfQ6Ac7JLDG23jlhDqtDm9RD81UmIp1g==
+leckr-inputs@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/leckr-inputs/-/leckr-inputs-2.0.0.tgz#304738c65c65bb7d2d21af051e9cacd7b1c4466d"
+  integrity sha512-mSxhZMZ4OGkV0+Zt1qtUWMUDSCKPwWmsbiwyDbre1sYOeBJ0XRgdF5kZHgT15mReXq410kQR8MwCJx7d5tK2Pg==
   dependencies:
     date-fns "^1.30.1"
     firebase "^5.8.0"
@@ -4068,7 +4068,6 @@ leckr-inputs@^1.1.16:
     react-native-modal-selector "^1.0.1"
     react-native-platform-touchable "^1.1.1"
     react-native-super-actionsheet "^1.0.3"
-    react-native-super-image "^1.0.8"
     react-native-vector-icons "^6.2.0"
 
 levn@^0.3.0, levn@~0.3.0:
@@ -5448,6 +5447,11 @@ react-native-google-places-autocomplete@^1.3.9:
     prop-types "^15.5.10"
     qs "^5.2.0"
 
+react-native-keyboard-spacer@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/react-native-keyboard-spacer/-/react-native-keyboard-spacer-0.4.1.tgz#46f18a320432098a25ea9fa89f5143dd254d332d"
+  integrity sha1-RvGKMgQyCYol6p+on1FD3SVNMy0=
+
 react-native-maps@expo/react-native-maps#v0.22.1-exp.0:
   version "0.22.1"
   resolved "https://codeload.github.com/expo/react-native-maps/tar.gz/e6f98ff7272e5d0a7fe974a41f28593af2d77bb2"
@@ -5494,15 +5498,6 @@ react-native-super-actionsheet@^1.0.3:
   integrity sha512-CByNvZLN/McbeA6/33HYAc7HBf4nQAoUm8UN5GYrSxJ3sTbRf/KFotD9vmdt4M5TSdaX01FKuU5uRRlRNAVFkA==
   dependencies:
     react-native-actionsheet "^2.4.2"
-
-react-native-super-image@^1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/react-native-super-image/-/react-native-super-image-1.0.8.tgz#177e603e1b4db32a28600a5956242dc618f0d6ff"
-  integrity sha512-koAoVx/XgGhrTBwmKqJdMKXCl0WCu1rcDpVg60fUwFz/gfanLoJi+vJ8emM5G40VV/+c1f3fa7u+HKZu1UINnA==
-  dependencies:
-    react-redux "^6.0.0"
-    redux "^4.0.1"
-    redux-persist "^5.10.0"
 
 react-native-svg@8.0.10:
   version "8.0.10"
@@ -5640,7 +5635,7 @@ react-proxy@^1.1.7:
     lodash "^4.6.1"
     react-deep-force-update "^1.0.0"
 
-react-redux@^6.0.0, react-redux@^6.0.1:
+react-redux@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-6.0.1.tgz#0d423e2c1cb10ada87293d47e7de7c329623ba4d"
   integrity sha512-T52I52Kxhbqy/6TEfBv85rQSDz6+Y28V/pf52vDWs1YRXG19mcFOGfHnY2HsNFHyhP+ST34Aih98fvt6tqwVcQ==

@@ -5,11 +5,14 @@ import {
   Platform,
   Alert,
   TouchableOpacity,
+  KeyboardAvoidingView,
   Text,
   Button,
   TextInput,
 } from "react-native";
 import { Contacts, Permissions, Icon } from "expo";
+import FAB from "./pure.floating.action.button";
+import KeyboardSpacer from "react-native-keyboard-spacer";
 // weriedkddk  dksksdlfd
 //sdfksd
 const MINIMUM_SELECTED = 5;
@@ -19,7 +22,7 @@ class ContactsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEditing: false,
+      isEditing: props.isIntro || false,
       contacts: [],
       selected: [],
     };
@@ -31,36 +34,23 @@ class ContactsScreen extends React.Component {
     this.props.navigation.setParams({
       switchEdit: () => this.setState({ isEditing: !this.state.isEditing }),
     });
-
-    this.syncContacts();
   }
 
   async componentWillMount() {
-    if (Platform.OS === "android") {
-      const { status, expires, permissions } = await Permissions.askAsync(
-        Permissions.CONTACTS
-      );
-      if (status !== "granted") {
-        Alert.alert("Sorry. We need access");
-      }
-      else {
-        this.syncContacts();
-      }
+    const { status } = await Permissions.askAsync(Permissions.CONTACTS);
+    if (status !== "granted") {
+      Alert.alert("Sorry. We need access");
+    }
+    else {
+      this.syncContacts();
     }
   }
 
   syncContacts() {
-    console.log("syncing contacts");
     Contacts.getContactsAsync()
       .then(({ data }) => {
-        console.log("data", data[0]);
-
         this.setState({
-          contacts: data.map(({ id, name, phoneNumbers }) => ({
-            id,
-            name,
-            phone: phoneNumbers && phoneNumbers[0].number,
-          })),
+          contacts: data,
         });
       })
       .catch(e => console.warn(e));
@@ -68,46 +58,64 @@ class ContactsScreen extends React.Component {
 
   renderItem({ index, item }) {
     const { selected, isEditing } = this.state;
+    const {
+      navigation: { navigate },
+      screenProps: { contacts },
+    } = this.props;
+
+    const favIds = contacts ? contacts.map(f => f.id) : [];
+    const isFav = favIds.includes(item.id);
 
     const ids = selected ? selected.map(s => s.id) : [];
     const already = ids.includes(item.id);
-    // console.log("selected", selected, "ids:", ids, "already", already);
+
+    const switchSelection = () => {
+      let newSelected = selected;
+      if (already) {
+        newSelected = selected.filter(s => s.id !== item.id);
+      }
+      else {
+        newSelected.push(item);
+      }
+
+      this.setState({ selected: newSelected });
+    };
+
+    const goToUser = () => navigate("User", { user: item });
+
+    const phone = item.phoneNumbers && item.phoneNumbers[0].number;
 
     return (
       <TouchableOpacity
-        disabled={!isEditing}
-        onPress={() => {
-          let newSelected = selected;
-          if (already) {
-            newSelected = selected.filter(s => s.id !== item.id);
-          }
-          else {
-            newSelected.push(item);
-          }
-
-          this.setState({ selected: newSelected });
-        }}
+        onPress={isEditing ? switchSelection : goToUser}
         style={{
           height: 50,
+
           flexDirection: "row",
+          justifyContent: "space-between",
           alignItems: "center",
           marginHorizontal: 10,
         }}
       >
-        {isEditing ? (
-          <Icon.MaterialCommunityIcons
-            size={24}
-            style={{ margin: 10 }}
-            name={
-              already ? "checkbox-marked-outline" : "checkbox-blank-outline"
-            }
-          />
-        ) : null}
-        <View>
-          <Text style={{ fontSize: 16 }} key={`key-${index}`}>
-            {item.name}
-          </Text>
-          <Text style={{ fontSize: 12, color: "#AAA" }}>{item.phone}</Text>
+        <View style={{ flexDirection: "row" }}>
+          {isEditing ? (
+            <Icon.MaterialCommunityIcons
+              size={24}
+              style={{ margin: 10 }}
+              name={
+                already ? "checkbox-marked-outline" : "checkbox-blank-outline"
+              }
+            />
+          ) : null}
+          <View>
+            <Text style={{ fontSize: 16 }} key={`key-${index}`}>
+              {item.name || (item.emails && item.emails[0].email)}
+            </Text>
+            <Text style={{ fontSize: 12, color: "#AAA" }}>{phone}</Text>
+          </View>
+        </View>
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          {isFav ? <Icon.AntDesign name="star" size={24} color="gold" /> : null}
         </View>
       </TouchableOpacity>
     );
@@ -169,32 +177,118 @@ class ContactsScreen extends React.Component {
     );
   };
 
-  renderFooter = () => {
+  addFavorites = () => {
     const {
+      isIntro,
       screenProps: { dispatch },
       navigation: { navigate },
     } = this.props;
     const { selected } = this.state;
 
+    dispatch({ type: "ADD_FAVORITES", value: selected });
+    if (isIntro) {
+      dispatch({ type: "SET_DEVICE", value: { seenIntro: true } });
+      navigate("HomeStack");
+    }
+    this.setState({ selected: [] });
+  };
+
+  removeFavorites = () => {
+    const {
+      screenProps: { dispatch },
+    } = this.props;
+    const { selected } = this.state;
+
+    dispatch({ type: "REMOVE_FAVORITES", value: selected });
+    this.setState({ selected: [] });
+  };
+
+  deleteContacts = () => {
+    const { selected } = this.state;
+
+    //remove all contacts you selected from your contact list, and also from favorites
+    this.removeFavorites();
+
+    Promise.all(
+      selected.map(contact => Contacts.removeContactAsync(contact.id))
+    ).then(() => {
+      this.syncContacts();
+    });
+  };
+
+  renderFooter = () => {
+    const { isIntro } = this.props;
+    const { selected } = this.state;
+
     const needMore = selected.length < MINIMUM_SELECTED;
     const howManyMore = MINIMUM_SELECTED - selected.length;
-    return (
+
+    const content = isIntro ? (
       <Button
         disabled={needMore}
         title={needMore ? `Select ${howManyMore} more` : "Save"}
-        onPress={() => {
-          dispatch({ type: "SET_CONTACTS", value: selected });
-          dispatch({ type: "SET_DEVICE", value: { seenIntro: true } });
-          navigate("HomeStack");
-        }}
+        onPress={this.addFavorites}
       />
+    ) : selected.length > 0 ? (
+      <View>
+        <FAB
+          text="Favorite"
+          backgroundColor="green"
+          onPress={this.addFavorites}
+        />
+        <FAB
+          text="Unfavorite"
+          position={1}
+          backgroundColor="yellow"
+          icon="minus"
+          IconFont={Icon.FontAwesome}
+          iconColor="black"
+          onPress={this.removeFavorites}
+        />
+        {Platform.OS === "ios" ? (
+          <FAB
+            text="Remove"
+            position={2}
+            icon="trash"
+            IconFont={Icon.Entypo}
+            backgroundColor="red"
+            onPress={this.deleteContacts}
+          />
+        ) : null}
+      </View>
+    ) : null;
+
+    const keyboardSpacer = <KeyboardSpacer topSpacing={-48} />; // -48 for navigation
+    return (
+      <View>
+        {content}
+        {keyboardSpacer}
+      </View>
     );
   };
 
-  renderEmpty = () => <Text>No contacts found</Text>;
+  renderEmpty = () => (
+    <Text style={{ textAlign: "center", fontSize: 16 }}>No contacts found</Text>
+  );
+
+  renderListFooter = () => {
+    const { search, contacts } = this.state;
+    const spacer = <View style={{ height: 80 }} />;
+    return search ? (
+      spacer
+    ) : (
+      <View>
+        <Text style={{ textAlign: "center", fontSize: 16 }}>
+          {contacts.length} contacts
+        </Text>
+        {spacer}
+      </View>
+    );
+  };
 
   render() {
     const { contacts, selected, search, isEditing } = this.state;
+    const { isIntro } = this.props;
 
     const filteredContacts = contacts
       ? search
@@ -206,15 +300,18 @@ class ContactsScreen extends React.Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <Button
-          onPress={() => this.setState({ isEditing: !this.state.isEditing })}
-          title="Edit"
-        />
+        {!isIntro ? (
+          <Button
+            onPress={() => this.setState({ isEditing: !this.state.isEditing })}
+            title="Edit"
+          />
+        ) : null}
         {this.renderHeader()}
         <FlatList
           extraData={[selected.length, isEditing]}
           data={filteredContacts}
           ListEmptyComponent={this.renderEmpty}
+          ListFooterComponent={this.renderListFooter}
           ItemSeparatorComponent={this.renderSeparator}
           keyExtractor={(c, i) => `item-${i}`}
           renderItem={this.renderItem}

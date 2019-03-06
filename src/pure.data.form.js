@@ -1,22 +1,20 @@
 import React from "react";
-import expo from "expo";
+import * as expo from "expo";
 
 import { inputs, FieldComponent } from "leckr-inputs";
 import _DataForm from "react-native-data-forms";
 
-//this is needed for image upload
 const firebaseConfig = {
-  apiKey: "?",
-  authDomain: "?",
-  databaseURL: "?",
-  projectId: "?",
-  storageBucket: "?",
-  messagingSenderId: "?",
+  apiKey: "AIzaSyAlDI2KXUKX1RdOMDDNZZb-Jpe5x2Y9I14",
+  authDomain: "dunbar-4acff.firebaseapp.com",
+  databaseURL: "https://dunbar-4acff.firebaseio.com",
+  projectId: "dunbar-4acff",
+  storageBucket: "dunbar-4acff.appspot.com",
+  messagingSenderId: "599809854716",
 };
 
-//this is needed for the location type
 const googlePlacesConfig = {
-  key: "?",
+  key: "AIzaSyCALdVx7eadLISirPX800rlXUlUcdpX7nY",
 };
 
 const DataForm = props => {

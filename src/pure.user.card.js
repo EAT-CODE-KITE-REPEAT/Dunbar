@@ -16,7 +16,6 @@ const SIZE = width / 3 - MARGIN * 2;
 const IMAGE_SIZE = SIZE * 1;
 
 const openExternal = url => {
-  console.log("Url?", url);
   Linking.canOpenURL(url).then(supported => {
     if (supported) {
       Linking.openURL(url);
@@ -27,24 +26,48 @@ const openExternal = url => {
   });
 };
 
-const openUrl = url => {
-  Linking.canOpenURL(url).then(supported => {
-    if (supported) {
-      WebBrowser.openBrowserAsync(url);
-    }
-  });
-};
+// const openBrowser = url => {
+//   Linking.canOpenURL(url).then(supported => {
+//     if (supported) {
+//       WebBrowser.openBrowserAsync(url);
+//     }
+//   });
+// };
 
 const formattedPhoneNumber = phone => phone.replace(/[- )(]/g, "");
-// todo : add PureIconLabel in the mix using user.suggestions
-// an array of suggestions which are icons and activitynames
+
+//remove leading 0
+const formattedWhatsappNumber = phone => {
+  const formatted = phone.replace(/[- )(]/g, "");
+
+  //should only be done if user lives in the netherlands, but fine for PoC
+  const noZero =
+    formatted[0] === "0"
+      ? "31" + formatted.substring(1, formatted.length)
+      : formatted;
+
+  return noZero;
+};
+
+const unfavoriteAction = (user, dispatch) => {
+  dispatch({ type: "REMOVE_FAVORITES", value: [user] });
+};
 
 const PureUserCard = props => {
-  const { user, device, navigate } = props;
+  const {
+    index,
+    user,
+    screenProps: { device, dispatch },
+    navigate,
+  } = props;
 
-  const imageOrName = user.image ? (
+  this.actionSheet = Array;
+
+  const phone = user.phoneNumbers && user.phoneNumbers[0].number;
+
+  const imageOrName = user.imageAvailable ? (
     <Image
-      source={{ uri: user.image }}
+      source={{ uri: user.image.uri }}
       style={{
         width: IMAGE_SIZE,
         height: IMAGE_SIZE,
@@ -55,24 +78,21 @@ const PureUserCard = props => {
     <Text>{user.name}</Text>
   );
 
-  const callAction = () =>
-    openExternal(`tel:${formattedPhoneNumber(user.phone)}`);
+  //openUrl(`https://api.whatsapp.com/send?phone=${formattedWhatsappNumber(phone)}`);
+  const callAction = () => openExternal(`tel:${formattedPhoneNumber(phone)}`);
   const whatsappAction = () =>
-    openUrl(
-      `https://api.whatsapp.com/send?phone=${formattedPhoneNumber(user.phone)}`
-    );
-  const userAction = () => navigate("User");
+    Linking.openURL(`whatsapp://send?phone=${formattedWhatsappNumber(phone)}`);
 
+  const userAction = () => navigate("User", { user });
   return (
     <TouchableOpacity
       style={{
         margin: MARGIN,
         width: SIZE,
-        height: SIZE,
-        justifyContent: "center",
+        justifyContent: "flex-start",
         alignItems: "center",
       }}
-      onPress={() => this.actionSheet.show()}
+      onPress={() => this.actionSheet[index].show()}
       onLongPress={() => {
         if (device.favoriteAction === "phone") {
           callAction();
@@ -99,16 +119,22 @@ const PureUserCard = props => {
       </View>
 
       <ActionSheet
-        reference={ref => (this.actionSheet = ref)}
+        reference={ref => (this.actionSheet[index] = ref)}
         data={[
           { index: 0, title: "Call", onPress: callAction },
           { index: 1, title: "Whatsapp", onPress: whatsappAction },
           { index: 2, title: "Profile", onPress: userAction },
-          { index: 3, title: "Cancel", cancel: true },
+          {
+            index: 3,
+            title: "Remove from this list",
+            onPress: () => unfavoriteAction(user, dispatch),
+            destructive: true,
+          },
+          { index: 4, title: "Cancel", cancel: true },
         ]}
       />
 
-      {user.notes ? <Text>{user.notes}</Text> : null}
+      {user.note ? <Text>{user.note}</Text> : null}
     </TouchableOpacity>
   );
 };
