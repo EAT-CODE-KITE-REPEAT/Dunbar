@@ -114,7 +114,8 @@ Tabs.navigationOptions = ({ navigation }) => {
   );
   return {
     headerTitle: routeName,
-    headerRight: routeName === "Contacts" ? contactsButton : null,
+    // NB: Doesn't work yet because can't pass params from nested navs :( see guide
+    //headerRight: routeName === "Contacts" ? contactsButton : null,
     headerTitleStyle: { fontSize: 30 },
   };
 };

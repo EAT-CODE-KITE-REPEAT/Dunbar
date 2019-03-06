@@ -67,7 +67,7 @@ class ContactsScreen extends React.Component {
   }
 
   renderItem({ index, item }) {
-    const { selected } = this.state;
+    const { selected, isEditing } = this.state;
 
     const ids = selected ? selected.map(s => s.id) : [];
     const already = ids.includes(item.id);
@@ -75,6 +75,7 @@ class ContactsScreen extends React.Component {
 
     return (
       <TouchableOpacity
+        disabled={!isEditing}
         onPress={() => {
           let newSelected = selected;
           if (already) {
@@ -93,11 +94,15 @@ class ContactsScreen extends React.Component {
           marginHorizontal: 10,
         }}
       >
-        <Icon.MaterialCommunityIcons
-          size={24}
-          style={{ margin: 10 }}
-          name={already ? "checkbox-marked-outline" : "checkbox-blank-outline"}
-        />
+        {isEditing ? (
+          <Icon.MaterialCommunityIcons
+            size={24}
+            style={{ margin: 10 }}
+            name={
+              already ? "checkbox-marked-outline" : "checkbox-blank-outline"
+            }
+          />
+        ) : null}
         <View>
           <Text style={{ fontSize: 16 }} key={`key-${index}`}>
             {item.name}
@@ -114,42 +119,52 @@ class ContactsScreen extends React.Component {
     />
   );
 
-  renderHeader = () => {
-    const { selected } = this.state;
+  renderSearchBar = () => (
+    <View
+      style={{
+        height: 35,
+        marginTop: 10,
+        marginHorizontal: 10,
+        flexDirection: "row",
+        backgroundColor: "#DDD",
+        borderRadius: 10,
+        alignItems: "center",
+      }}
+    >
+      <Icon.Ionicons
+        style={{ margin: 5 }}
+        color="#AAA"
+        name="ios-search"
+        size={24}
+      />
+      <TextInput
+        style={{ flex: 1, height: 35 }}
+        placeholder="Search"
+        onChangeText={search => this.setState({ search })}
+      />
+    </View>
+  );
 
+  renderHeader = () => {
+    const { selected, isEditing } = this.state;
     return (
       <View>
-        <View
-          style={{
-            height: 35,
-            marginTop: 10,
-            marginHorizontal: 10,
-            flexDirection: "row",
-            backgroundColor: "#DDD",
-            borderRadius: 10,
-            alignItems: "center",
-          }}
-        >
-          <Icon.Ionicons
-            style={{ margin: 5 }}
-            color="#AAA"
-            name="ios-search"
-            size={24}
-          />
-          <TextInput
-            style={{ flex: 1, height: 35 }}
-            placeholder="Search"
-            onChangeText={search => this.setState({ search })}
-          />
-        </View>
-        <View
-          style={{ height: 50, marginHorizontal: 10, justifyContent: "center" }}
-        >
-          <Text>
-            {selected && selected.length > 0 ? selected.length : "None"}{" "}
-            selected
-          </Text>
-        </View>
+        {this.renderSearchBar()}
+
+        {isEditing ? (
+          <View
+            style={{
+              height: 50,
+              marginHorizontal: 10,
+              justifyContent: "center",
+            }}
+          >
+            <Text>
+              {selected && selected.length > 0 ? selected.length : "None"}{" "}
+              selected
+            </Text>
+          </View>
+        ) : null}
       </View>
     );
   };
@@ -177,8 +192,9 @@ class ContactsScreen extends React.Component {
   };
 
   renderEmpty = () => <Text>No contacts found</Text>;
+
   render() {
-    const { contacts, selected, search } = this.state;
+    const { contacts, selected, search, isEditing } = this.state;
 
     const filteredContacts = contacts
       ? search
@@ -190,9 +206,13 @@ class ContactsScreen extends React.Component {
 
     return (
       <View style={{ flex: 1 }}>
+        <Button
+          onPress={() => this.setState({ isEditing: !this.state.isEditing })}
+          title="Edit"
+        />
         {this.renderHeader()}
         <FlatList
-          extraData={selected.length}
+          extraData={[selected.length, isEditing]}
           data={filteredContacts}
           ListEmptyComponent={this.renderEmpty}
           ItemSeparatorComponent={this.renderSeparator}
