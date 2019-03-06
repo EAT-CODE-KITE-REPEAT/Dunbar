@@ -4,7 +4,14 @@ import UserCard from "./pure.user.card";
 
 class Home extends React.Component {
 
-  renderItem = ({ item }) => <UserCard user={item} />;
+  renderItem = ({ item }) => (
+    <UserCard
+      device={this.props.screenProps.device}
+      navigate={this.props.navigation.navigate}
+      user={item}
+    />
+  );
+
   renderEmpty = () => <Text>No contacts yet!</Text>;
   render() {
     const {

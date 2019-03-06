@@ -1,16 +1,20 @@
 import React from "react";
-import { Button, View, Text } from "react-native";
+import { ScrollView, Button, Text } from "react-native";
 import { Updates } from "expo";
 class Home extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { showDevice: false };
+  }
 
   render() {
     const {
       screenProps: { device, dispatch },
     } = this.props;
 
-    console.log("device", device);
     return (
-      <View style={{ flex: 1 }}>
+      <ScrollView style={{ flex: 1 }}>
         <Text>Settings {device.seenIntro} </Text>
 
         <Button title="Purge" onPress={() => dispatch({ type: "PURGE" })} />
@@ -20,7 +24,7 @@ class Home extends React.Component {
           onPress={() =>
             dispatch({
               type: "SET_DEVICE",
-              value: { whatsappOrPhone: "phone" },
+              value: { favoriteAction: "phone" },
             })
           }
         />
@@ -30,13 +34,32 @@ class Home extends React.Component {
           onPress={() =>
             dispatch({
               type: "SET_DEVICE",
-              value: { whatsappOrPhone: "whatsapp" },
+              value: { favoriteAction: "whatsapp" },
             })
           }
         />
 
+        <Button
+          title="Set default action to 'user'"
+          onPress={() =>
+            dispatch({
+              type: "SET_DEVICE",
+              value: { favoriteAction: "user" },
+            })
+          }
+        />
+
+        <Button
+          title="Show device state"
+          onPress={() => this.setState({ showDevice: true })}
+        />
+
+        {this.state.showDevice ? (
+          <Text>{JSON.stringify(this.props.screenProps.device)}</Text>
+        ) : null}
+
         <Button title="Reload app" onPress={() => Updates.reload()} />
-      </View>
+      </ScrollView>
     );
   }
 

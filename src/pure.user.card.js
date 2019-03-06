@@ -27,7 +27,7 @@ const formattedPhoneNumber = phone => phone.replace(/[- )(]/g, "");
 // an array of suggestions which are icons and activitynames
 
 const PureUserCard = props => {
-  const { user } = props;
+  const { user, device, navigate } = props;
 
   const imageOrName = user.image ? (
     <Image
@@ -51,11 +51,19 @@ const PureUserCard = props => {
         alignItems: "center",
       }}
       onPress={() => {
-        openUrl(
-          `https://api.whatsapp.com/send?phone=${formattedPhoneNumber(
-            user.phone
-          )}`
-        );
+        if (device.favoriteAction === "phone") {
+          openUrl(`tel:${formattedPhoneNumber(user.phone)}`);
+        }
+        else if (device.favoriteAction === "user") {
+          navigate("user");
+        }
+        else {
+          openUrl(
+            `https://api.whatsapp.com/send?phone=${formattedPhoneNumber(
+              user.phone
+            )}`
+          );
+        }
       }}
     >
       <View

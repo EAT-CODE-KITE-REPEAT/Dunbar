@@ -1,19 +1,19 @@
 type Device = {
-  whatsappOrPhone: string,
+  favoriteAction: string,
   seenIntro: boolean,
-  version: number
+  version: number,
 };
 
 type Contact = Object;
 
 type Reducer = {
   device: Device,
-  contacts: Contact
+  contacts: Contact,
 };
 
 const initReducer: Reducer = {
   device: {
-    whatsappOrPhone: "phone",
+    favoriteAction: "phone",
     seenIntro: false,
     version: 0,
   },
