@@ -2,12 +2,11 @@ import React from "react";
 import DataForm from "./pure.data.form";
 import { Field } from "react-native-data-forms/types";
 import { View } from "react-native";
-import { Contacts } from "expo";
 const fields: Field[] = [
   {
-    field: "IMAGEFIELD",
+    field: "image",
     type: "coverImage",
-    mapFieldsToDB: { url: "image2", thumbUrl: "image" },
+    //mapFieldsToDB: { url: "image2", thumbUrl: "image" },
   },
 
   {

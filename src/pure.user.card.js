@@ -47,7 +47,7 @@ const PureUserCard = props => {
 
   const imageOrName = user.imageAvailable ? (
     <Image
-      source={{ uri: user.image.uri }}
+      source={{ uri: user.image.uri, cache: "force-cache" }}
       style={{
         width: IMAGE_SIZE,
         height: IMAGE_SIZE,
