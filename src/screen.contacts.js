@@ -20,7 +20,10 @@ class ContactsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEditing: props.isIntro || false,
+      isEditing:
+        (props.navigation.state.params &&
+          props.navigation.state.params.isIntro) ||
+        false,
       contacts: [],
       selected: [],
       isFetching: false,
@@ -184,14 +187,16 @@ class ContactsScreen extends React.Component {
 
   addFavorites = () => {
     const {
-      isIntro,
       screenProps: { dispatch },
-      navigation: { navigate },
+      navigation: {
+        state: { params },
+        navigate,
+      },
     } = this.props;
     const { selected } = this.state;
 
     dispatch({ type: "ADD_FAVORITES", value: selected });
-    if (isIntro) {
+    if (params && params.isIntro) {
       dispatch({ type: "SET_DEVICE", value: { seenIntro: true } });
       navigate("HomeStack");
     }
@@ -222,47 +227,53 @@ class ContactsScreen extends React.Component {
   };
 
   renderFooter = () => {
-    const { isIntro } = this.props;
+    const {
+      navigation: {
+        state: { params },
+      },
+    } = this.props;
     const { selected } = this.state;
 
     const needMore = selected.length < MINIMUM_SELECTED;
     const howManyMore = MINIMUM_SELECTED - selected.length;
 
-    const content = isIntro ? (
-      <Button
-        disabled={needMore}
-        title={needMore ? `Select ${howManyMore} more` : "Save"}
-        onPress={this.addFavorites}
-      />
-    ) : selected.length > 0 ? (
-      <View>
-        <FAB
-          text="Favorite"
-          backgroundColor="green"
+    const content =
+      params && params.isIntro ? (
+        <Button
+          disabled={needMore}
+          title={needMore ? `Select ${howManyMore} more` : "Save"}
           onPress={this.addFavorites}
         />
-        <FAB
-          text="Unfavorite"
-          position={1}
-          backgroundColor="yellow"
-          icon="minus"
-          IconFont={Icon.FontAwesome}
-          iconColor="black"
-          onPress={this.removeFavorites}
-        />
-        {Platform.OS === "ios" ? (
+      ) : selected.length > 0 ? (
+        <View>
           <FAB
-            text="Remove"
-            position={2}
-            icon="trash"
-            IconFont={Icon.Entypo}
-            backgroundColor="red"
-            onPress={this.deleteContacts}
+            text="Favorite"
+            backgroundColor="green"
+            onPress={this.addFavorites}
           />
-        ) : null}
-      </View>
-    ) : null;
+          <FAB
+            text="Unfavorite"
+            position={1}
+            backgroundColor="yellow"
+            icon="minus"
+            IconFont={Icon.FontAwesome}
+            iconColor="black"
+            onPress={this.removeFavorites}
+          />
+          {Platform.OS === "ios" ? (
+            <FAB
+              text="Remove"
+              position={2}
+              icon="trash"
+              IconFont={Icon.Entypo}
+              backgroundColor="red"
+              onPress={this.deleteContacts}
+            />
+          ) : null}
+        </View>
+      ) : null;
 
+    console.log("content", params && params.isIntro);
     const keyboardSpacer = <KeyboardSpacer topSpacing={-48} />; // -48 for navigation
     return (
       <View>
@@ -293,7 +304,11 @@ class ContactsScreen extends React.Component {
 
   render() {
     const { contacts, selected, search, isEditing } = this.state;
-    const { isIntro } = this.props;
+    const {
+      navigation: {
+        state: { params },
+      },
+    } = this.props;
 
     const filteredContacts = contacts
       ? search
@@ -305,7 +320,7 @@ class ContactsScreen extends React.Component {
 
     return (
       <View style={{ flex: 1 }}>
-        {!isIntro ? (
+        {!params || !params.isIntro ? (
           <Button
             onPress={() => this.setState({ isEditing: !this.state.isEditing })}
             title="Edit"

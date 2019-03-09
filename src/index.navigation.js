@@ -89,7 +89,7 @@ const HomeStack = createStackNavigator({
   Team: {
     screen: Team,
     navigationOptions: () => ({
-      headerTitle: "About the creator",
+      headerTitle: "Feedback & Team",
     }),
   },
   About: {

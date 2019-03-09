@@ -1,6 +1,6 @@
 import React from "react";
 import { Icon } from "expo";
-import { FlatList, View, Text, Button, TouchableOpacity } from "react-native";
+import { FlatList, View, Text, TouchableOpacity } from "react-native";
 
 const defaultIconComponent = Icon.Entypo;
 
@@ -13,7 +13,7 @@ const PAGES = [
 
   {
     screen: "Team",
-    title: "About the creator",
+    title: "Feedback & Team",
     icon: "users",
     iconComponent: Icon.FontAwesome,
   },

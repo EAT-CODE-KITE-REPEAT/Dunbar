@@ -8,8 +8,9 @@ import {
   Alert,
   Text,
 } from "react-native";
-import { WebBrowser } from "expo";
 import ActionSheet from "react-native-super-actionsheet";
+import { whatsappAction } from "./index.util";
+
 const { width } = Dimensions.get("screen");
 const MARGIN = 10;
 const SIZE = width / 3 - MARGIN * 2;
@@ -26,28 +27,7 @@ const openExternal = url => {
   });
 };
 
-// const openBrowser = url => {
-//   Linking.canOpenURL(url).then(supported => {
-//     if (supported) {
-//       WebBrowser.openBrowserAsync(url);
-//     }
-//   });
-// };
-
 const formattedPhoneNumber = phone => phone.replace(/[- )(]/g, "");
-
-//remove leading 0
-const formattedWhatsappNumber = phone => {
-  const formatted = phone.replace(/[- )(]/g, "");
-
-  //should only be done if user lives in the netherlands, but fine for PoC
-  const noZero =
-    formatted[0] === "0"
-      ? "31" + formatted.substring(1, formatted.length)
-      : formatted;
-
-  return noZero;
-};
 
 const unfavoriteAction = (user, dispatch) => {
   dispatch({ type: "REMOVE_FAVORITES", value: [user] });
@@ -80,8 +60,6 @@ const PureUserCard = props => {
 
   //openUrl(`https://api.whatsapp.com/send?phone=${formattedWhatsappNumber(phone)}`);
   const callAction = () => openExternal(`tel:${formattedPhoneNumber(phone)}`);
-  const whatsappAction = () =>
-    Linking.openURL(`whatsapp://send?phone=${formattedWhatsappNumber(phone)}`);
 
   const userAction = () => navigate("User", { user });
   return (
@@ -101,7 +79,7 @@ const PureUserCard = props => {
           userAction();
         }
         else {
-          whatsappAction();
+          whatsappAction(phone);
         }
       }}
     >

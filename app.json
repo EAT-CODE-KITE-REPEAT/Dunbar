@@ -20,11 +20,12 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "buildNumber": "1",
+      "buildNumber": "2",
       "bundleIdentifier": "com.progenworks.dunbar",
       "icon": "./assets/icon.png"
     },
     "android": {
+      "versionCode": 1,
       "package": "com.progenworks.dunbar",
       "permissions": [
         "CAMERA",

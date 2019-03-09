@@ -80,7 +80,7 @@ class About extends React.Component {
         {last && !isAbout ? (
           <Button
             title="Select contacts"
-            onPress={() => navigation.navigate("Contacts")}
+            onPress={() => navigation.navigate("Contacts", { isIntro: true })}
           />
         ) : null}
       </TouchOrView>
