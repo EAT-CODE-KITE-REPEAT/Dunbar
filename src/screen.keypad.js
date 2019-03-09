@@ -1,15 +1,15 @@
 import React from "react";
 import {
   Linking,
-  Button,
   TouchableOpacity,
   Dimensions,
   View,
   Alert,
-  ScrollView,
   Text,
 } from "react-native";
 import { Icon } from "expo";
+import Button from "./pure.button";
+
 const { height, width } = Dimensions.get("screen");
 
 const FONTSIZE = 33;

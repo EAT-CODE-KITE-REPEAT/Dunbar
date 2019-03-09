@@ -1,6 +1,7 @@
 import React from "react";
-import { ScrollView, Button, Text } from "react-native";
+import { ScrollView, Text } from "react-native";
 import { Updates } from "expo";
+import Button from "./pure.button";
 class Home extends React.Component {
 
   constructor(props) {

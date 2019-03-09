@@ -5,16 +5,14 @@ import {
   Platform,
   Alert,
   TouchableOpacity,
-  KeyboardAvoidingView,
   Text,
-  Button,
   TextInput,
 } from "react-native";
 import { Contacts, Permissions, Icon } from "expo";
 import FAB from "./pure.floating.action.button";
 import KeyboardSpacer from "react-native-keyboard-spacer";
-// weriedkddk  dksksdlfd
-//sdfksd
+import Button from "./pure.button";
+
 const MINIMUM_SELECTED = 5;
 
 class ContactsScreen extends React.Component {
@@ -25,6 +23,7 @@ class ContactsScreen extends React.Component {
       isEditing: props.isIntro || false,
       contacts: [],
       selected: [],
+      isFetching: false,
     };
 
     this.renderItem = this.renderItem.bind(this);
@@ -34,6 +33,10 @@ class ContactsScreen extends React.Component {
     this.props.navigation.setParams({
       switchEdit: () => this.setState({ isEditing: !this.state.isEditing }),
     });
+  }
+
+  onRefresh() {
+    this.setState({ isFetching: true }, this.syncContacts);
   }
 
   async componentWillMount() {
@@ -51,6 +54,7 @@ class ContactsScreen extends React.Component {
       .then(({ data }) => {
         this.setState({
           contacts: data,
+          isFetching: false,
         });
       })
       .catch(e => console.warn(e));
@@ -316,6 +320,8 @@ class ContactsScreen extends React.Component {
           ItemSeparatorComponent={this.renderSeparator}
           keyExtractor={(c, i) => `item-${i}`}
           renderItem={this.renderItem}
+          onRefresh={() => this.onRefresh()}
+          refreshing={this.state.isFetching}
         />
         {this.renderFooter()}
       </View>

@@ -2,8 +2,8 @@
 TEAM INFO (INFO ABOUT ME)
 */
 import React from "react";
-import { Linking, View, Text, Button } from "react-native";
-
+import { Linking, View, Text } from "react-native";
+import Button from "./pure.button";
 class About extends React.Component {
 
   render() {

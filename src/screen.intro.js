@@ -1,6 +1,7 @@
 import React from "react";
-import { View, Text, Button, TouchableOpacity, Image } from "react-native";
-// import Image from "./wrapper.super.image";
+import { View, Text, TouchableOpacity, Image } from "react-native";
+import Button from "./pure.button";
+
 class About extends React.Component {
 
   constructor(props) {
@@ -12,7 +13,7 @@ class About extends React.Component {
   }
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, isAbout } = this.props;
     const { clicked } = this.state;
 
     const sentences = [
@@ -76,7 +77,7 @@ class About extends React.Component {
           <Text style={{ fontSize }}>{item.text}</Text>
         </View>
 
-        {last ? (
+        {last && !isAbout ? (
           <Button
             title="Select contacts"
             onPress={() => navigation.navigate("Contacts")}

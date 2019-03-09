@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, View, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 import { Icon } from "expo";
 import { screens } from "leckr-inputs";
 
@@ -11,8 +11,8 @@ import {
 } from "react-navigation";
 
 import { connect } from "react-redux";
+import Button from "./pure.button";
 
-import About from "./screen.about";
 import Intro from "./screen.intro";
 import Home from "./screen.home";
 import Contacts from "./screen.contacts";
@@ -93,7 +93,8 @@ const HomeStack = createStackNavigator({
     }),
   },
   About: {
-    screen: About,
+    screen: () => <Intro isAbout />,
+    //NB: Should eventually use About screen with more info.
     navigationOptions: () => ({
       headerTitle: "About the app",
     }),

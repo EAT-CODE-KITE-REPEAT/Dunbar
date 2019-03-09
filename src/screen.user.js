@@ -5,8 +5,9 @@ import { View } from "react-native";
 import { Contacts } from "expo";
 const fields: Field[] = [
   {
-    field: "image",
+    field: "IMAGEFIELD",
     type: "coverImage",
+    mapFieldsToDB: { url: "image2", thumbUrl: "image" },
   },
 
   {
