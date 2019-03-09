@@ -63,24 +63,24 @@ const PureUserCard = props => {
 
   let n = 0;
 
-  const buttons = [];
+  let buttons = [];
 
   if (phone) {
-    buttons.concat([
+    buttons = buttons.concat([
       { index: n++, title: "Call", onPress: callAction },
       { index: n++, title: "Whatsapp", onPress: () => whatsappAction(phone) },
     ]);
   }
 
-  buttons.concat([
-    { index: 2, title: "Profile", onPress: userAction },
+  buttons = buttons.concat([
+    { index: n++, title: "Profile", onPress: userAction },
     {
-      index: 3,
+      index: n++,
       title: "Remove from this list",
       onPress: () => unfavoriteAction(user, dispatch),
       destructive: true,
     },
-    { index: 4, title: "Cancel", cancel: true },
+    { index: n++, title: "Cancel", cancel: true },
   ]);
 
   return (
