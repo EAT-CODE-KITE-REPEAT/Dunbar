@@ -1,29 +1,38 @@
 {
   "expo": {
     "name": "Dunbar",
+    "description": "Personal and Professional Relationship Management (PPRM)",
     "slug": "Dunbar",
     "privacy": "public",
     "sdkVersion": "32.0.0",
-    "platforms": [
-      "ios",
-      "android"
-    ],
+    "platforms": ["ios", "android"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash.jpeg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "buildNumber": "1",
+      "bundleIdentifier": "com.progenworks.dunbar"
+    },
+    "android": {
+      "package": "com.progenworks.dunbar",
+      "permissions": [
+        "CAMERA",
+        "READ_CONTACTS",
+        "com.android.launcher.permission.INSTALL_SHORTCUT",
+        "com.htc.launcher.permission.READ_SETTINGS",
+        "com.htc.launcher.permission.UPDATE_SHORTCUT",
+        "com.majeur.launcher.permission.UPDATE_BADGE"
+      ]
     }
   }
 }
