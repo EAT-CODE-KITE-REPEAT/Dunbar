@@ -2,7 +2,7 @@
 TEAM INFO (INFO ABOUT ME)
 */
 import React from "react";
-import { Linking, View, Text } from "react-native";
+import { View, Text } from "react-native";
 import Button from "./pure.button";
 import { whatsappAction } from "./index.util";
 import { WebBrowser } from "expo";

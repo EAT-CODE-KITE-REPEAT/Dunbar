@@ -58,10 +58,31 @@ const PureUserCard = props => {
     <Text>{user.name}</Text>
   );
 
-  //openUrl(`https://api.whatsapp.com/send?phone=${formattedWhatsappNumber(phone)}`);
   const callAction = () => openExternal(`tel:${formattedPhoneNumber(phone)}`);
-
   const userAction = () => navigate("User", { user });
+
+  let n = 0;
+
+  const buttons = [];
+
+  if (phone) {
+    buttons.concat([
+      { index: n++, title: "Call", onPress: callAction },
+      { index: n++, title: "Whatsapp", onPress: () => whatsappAction(phone) },
+    ]);
+  }
+
+  buttons.concat([
+    { index: 2, title: "Profile", onPress: userAction },
+    {
+      index: 3,
+      title: "Remove from this list",
+      onPress: () => unfavoriteAction(user, dispatch),
+      destructive: true,
+    },
+    { index: 4, title: "Cancel", cancel: true },
+  ]);
+
   return (
     <TouchableOpacity
       style={{
@@ -98,18 +119,7 @@ const PureUserCard = props => {
 
       <ActionSheet
         reference={ref => (this.actionSheet[index] = ref)}
-        data={[
-          { index: 0, title: "Call", onPress: callAction },
-          { index: 1, title: "Whatsapp", onPress: whatsappAction },
-          { index: 2, title: "Profile", onPress: userAction },
-          {
-            index: 3,
-            title: "Remove from this list",
-            onPress: () => unfavoriteAction(user, dispatch),
-            destructive: true,
-          },
-          { index: 4, title: "Cancel", cancel: true },
-        ]}
+        data={buttons}
       />
 
       {user.note ? <Text>{user.note}</Text> : null}

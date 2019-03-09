@@ -1,7 +1,7 @@
 import { Linking } from "react-native";
 
 const formattedWhatsappNumber = phone => {
-  const formatted = phone.replace(/[- )(]/g, "");
+  const formatted = (phone && phone.replace(/[- )(]/g, "")) || "";
 
   //should only be done if user lives in the netherlands, but fine for PoC
   const noZero =
