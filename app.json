@@ -10,7 +10,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/splash.jpeg",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,7 +21,8 @@
     "ios": {
       "supportsTablet": true,
       "buildNumber": "1",
-      "bundleIdentifier": "com.progenworks.dunbar"
+      "bundleIdentifier": "com.progenworks.dunbar",
+      "icon": "./assets/icon.png"
     },
     "android": {
       "package": "com.progenworks.dunbar",
