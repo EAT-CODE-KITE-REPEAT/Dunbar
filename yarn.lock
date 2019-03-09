@@ -4056,10 +4056,10 @@ lcid@^1.0.0:
   dependencies:
     invert-kv "^1.0.0"
 
-leckr-inputs@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/leckr-inputs/-/leckr-inputs-2.0.0.tgz#304738c65c65bb7d2d21af051e9cacd7b1c4466d"
-  integrity sha512-mSxhZMZ4OGkV0+Zt1qtUWMUDSCKPwWmsbiwyDbre1sYOeBJ0XRgdF5kZHgT15mReXq410kQR8MwCJx7d5tK2Pg==
+leckr-inputs@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/leckr-inputs/-/leckr-inputs-2.0.3.tgz#5e22180d0c63386becebda8f98624a497857d05f"
+  integrity sha512-AInsUW5nlOJqwBqxHg3aMUnriTuGoT2r1bbUSDHbhIKfcdOTk3IfNI4HMbvIiLYAVVND2mpH0LG44k3PIU8NlA==
   dependencies:
     date-fns "^1.30.1"
     firebase "^5.8.0"

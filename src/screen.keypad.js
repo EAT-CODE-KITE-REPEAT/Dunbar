@@ -10,11 +10,15 @@ import {
   Text,
 } from "react-native";
 import { Icon } from "expo";
-const { width } = Dimensions.get("screen");
+const { height, width } = Dimensions.get("screen");
 
 const FONTSIZE = 33;
-const MARGIN = 10;
-const SIZE = width / 3 - MARGIN * 5;
+const MARGIN_HORIZONTAL = 10;
+const MARGIN_VERTICAL = 5;
+
+const SIZE_VERTICAL = height / 6 - MARGIN_VERTICAL * 9;
+const SIZE_HORIZONTAL = width / 3 - MARGIN_HORIZONTAL * 5;
+const SIZE = SIZE_VERTICAL < SIZE_HORIZONTAL ? SIZE_VERTICAL : SIZE_HORIZONTAL;
 
 const openURL = url => {
   Linking.canOpenURL(url).then(supported => {
@@ -52,6 +56,7 @@ class Keypad extends React.Component {
           onPress={() =>
             navigation.navigate("User", {
               user: { phoneNumbers: [{ number }] },
+              createContact: true,
             })
           }
         />
@@ -63,8 +68,8 @@ class Keypad extends React.Component {
     <TouchableOpacity
       onPress={onPress}
       style={{
-        marginHorizontal: MARGIN,
-        marginVertical: MARGIN / 2,
+        marginHorizontal: MARGIN_HORIZONTAL,
+        marginVertical: MARGIN_VERTICAL,
         width: SIZE,
         height: SIZE,
         justifyContent: "center",
@@ -86,11 +91,11 @@ class Keypad extends React.Component {
       <Icon.Ionicons name="ios-backspace" size={40} color="#CCC" />
     );
     const emptyThing = (
-      <View style={{ width: SIZE, height: SIZE, margin: MARGIN }} />
+      <View style={{ width: SIZE, height: SIZE, margin: MARGIN_HORIZONTAL }} />
     );
 
     return (
-      <ScrollView style={{ flex: 1 }}>
+      <View style={{ flex: 1, alignItems: "center" }}>
         <View style={{ height: 80, marginTop: 20, alignItems: "center" }}>
           <Text style={{ fontSize: FONTSIZE }}>{number}</Text>
           {this.renderButtonOrContact(number)}
@@ -99,6 +104,8 @@ class Keypad extends React.Component {
           style={{
             justifyContent: "center",
             flexDirection: "row",
+            width: "80%",
+            // alignItems: "center",
             flexWrap: "wrap",
           }}
         >
@@ -137,7 +144,7 @@ class Keypad extends React.Component {
             })
             : emptyThing}
         </View>
-      </ScrollView>
+      </View>
     );
   }
 

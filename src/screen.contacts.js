@@ -81,7 +81,8 @@ class ContactsScreen extends React.Component {
       this.setState({ selected: newSelected });
     };
 
-    const goToUser = () => navigate("User", { user: item });
+    const goToUser = () =>
+      navigate("User", { user: item, createContact: true });
 
     const phone = item.phoneNumbers && item.phoneNumbers[0].number;
 

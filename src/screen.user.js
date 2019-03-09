@@ -165,6 +165,7 @@ class User extends React.Component {
     return (
       <DataForm
         fields={fields}
+        submitAll={params && params.createContact}
         onComplete={() => goBack()}
         mutate={dispatchPromise}
         completeButton="Save"
