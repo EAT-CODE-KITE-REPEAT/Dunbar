@@ -5,6 +5,9 @@ import React from "react";
 import { Linking, View, Text } from "react-native";
 import Button from "./pure.button";
 import { whatsappAction } from "./index.util";
+import { WebBrowser } from "expo";
+
+const openURL = url => WebBrowser.openBrowserAsync(url);
 
 class About extends React.Component {
 
@@ -18,7 +21,7 @@ class About extends React.Component {
         </Text>
         <Button
           title="My website"
-          onPress={() => Linking.openURL("https://karsens.com/")}
+          onPress={() => openURL("https://karsens.com/")}
         />
 
         <Text>
@@ -29,9 +32,7 @@ class About extends React.Component {
         <Button
           title="Ideas & Suggestions GitHub Issue"
           onPress={() =>
-            Linking.openURL(
-              "https://github.com/EAT-CODE-KITE-REPEAT/Dunbar/issues/2/"
-            )
+            openURL("https://github.com/EAT-CODE-KITE-REPEAT/Dunbar/issues/2/")
           }
         />
 
