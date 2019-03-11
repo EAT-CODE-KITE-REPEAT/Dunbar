@@ -5415,10 +5415,10 @@ react-native-branch@2.2.5:
   resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-2.2.5.tgz#4074dd63b4973e6397d9ce50e97b57c77a518e9d"
   integrity sha1-QHTdY7SXPmOX2c5Q6XtXx3pRjp0=
 
-react-native-data-forms@^1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/react-native-data-forms/-/react-native-data-forms-1.3.1.tgz#f29db26972252cf9bd75df1eec75b77773f56664"
-  integrity sha512-JES/dxypC/z3SWKbNrnaCbE4HVXaM4mdjIUsFG9CridnTqjsNBdgelBHsbt6I18C7s4tFRC+rIt4ckJhVJKZcg==
+react-native-data-forms@^1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/react-native-data-forms/-/react-native-data-forms-1.3.2.tgz#498972672a667e975b9909416b10343e01aa5a58"
+  integrity sha512-Y8ea9ZbA0XC8wDm3/j96bnB/rZ54VJ7Jk9V/Hxv300pJZ+qGwLH75cWTsW5hZ7oMBBqBKYCZ/sxGQSh7B7rJXA==
   dependencies:
     react-native-platform-touchable "^1.1.1"
 

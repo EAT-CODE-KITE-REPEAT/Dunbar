@@ -155,7 +155,7 @@ class User extends React.Component {
         value: contact,
       });
 
-      //3contact api
+      // 3 contact api
       // doesn't seem to work yet... also, need to distinguish between updating and creating! also, ios only
       // const updatedId = Contacts.updateContactAsync(contact);
       // console.log("updated ios contact", updatedId);
@@ -170,6 +170,7 @@ class User extends React.Component {
         mutate={dispatchPromise}
         completeButton="Save"
         values={values}
+        noNavigationBelow
         {...this.props}
       />
     );
