@@ -4,18 +4,9 @@ import * as expo from "expo";
 import { inputs, FieldComponent } from "leckr-inputs";
 import _DataForm from "react-native-data-forms";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAlDI2KXUKX1RdOMDDNZZb-Jpe5x2Y9I14",
-  authDomain: "dunbar-4acff.firebaseapp.com",
-  databaseURL: "https://dunbar-4acff.firebaseio.com",
-  projectId: "dunbar-4acff",
-  storageBucket: "dunbar-4acff.appspot.com",
-  messagingSenderId: "599809854716",
-};
+const firebaseConfig = require("./firebase.json");
 
-const googlePlacesConfig = {
-  key: "AIzaSyCALdVx7eadLISirPX800rlXUlUcdpX7nY",
-};
+const googlePlacesConfig = require("./google.json");
 
 const DataForm = props => {
   //initialize our input types with the props they need

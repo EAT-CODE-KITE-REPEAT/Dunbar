@@ -6,7 +6,6 @@ const fields: Field[] = [
   {
     field: "image",
     type: "coverImage",
-    //mapFieldsToDB: { url: "image2", thumbUrl: "image" },
   },
 
   {
@@ -30,54 +29,6 @@ const fields: Field[] = [
     title: "Notes",
     type: "textArea",
   },
-
-  // {
-  //   field: "date",
-  //   title: "Date",
-  //   type: "date",
-  // },
-
-  // {
-  //   field: "STARTEND",
-  //   titles: {
-  //     start: "Start",
-  //     end: "End",
-  //   },
-  //   mapFieldsToDB: {
-  //     start: "eventAt",
-  //     end: "eventEndAt",
-  //   },
-  //   startSection: true,
-  //   type: "dates",
-  // },
-
-  // {
-  //   startSection: true,
-  //   field: "color",
-  //   title: "Color",
-  //   type: "color",
-  // },
-
-  // {
-  //   field: "boolean",
-  //   title: "Yes or no?",
-  //   type: "boolean",
-  // },
-
-  // {
-  //   startSection: true,
-  //   field: "LOCATION",
-  //   mapFieldsToDB: {
-  //     address: "address",
-  //     city: "city",
-  //     mapsurl: "mapsurl",
-  //     country: "country",
-  //     latitude: "latitude",
-  //     longitude: "longitude",
-  //   },
-  //   title: "Address",
-  //   type: "location",
-  // },
 
   {
     field: "contactAmount",
